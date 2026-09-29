@@ -28,6 +28,14 @@ const router = createRouter({
       },
     },
     {
+      name: 'cart',
+      path: '/cart',
+      component: () => import('@/views/CartPage.vue'),
+      meta: {
+        title: 'Cart',
+      },
+    },
+    {
       name: 'product',
       path: '/products/:id',
       component: () => import('@/views/SingleProduct.vue'),

@@ -53,7 +53,7 @@
               <option value="20">20</option>
             </select>
           </div>
-          <div class="btn">Add to bag</div>
+          <div class="btn" @click="handleAddToCart">Add to bag</div>
         </div>
       </div>
     </div>
@@ -61,13 +61,14 @@
 </template>
 <script lang="ts" setup>
 import config from '@/constants/enviroment'
+import useCartStore from '@/stores/cart'
 import { Star } from '@lucide/vue'
 import axios from 'axios'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 interface ProductDetails {
-  id: string
+  id: number
   title: string
   description: string
   brand: string
@@ -78,14 +79,23 @@ interface ProductDetails {
 
 const product = ref<null | ProductDetails>(null)
 const roundedRating = computed(() => Math.round(product.value?.rating ?? 0))
-const amount = ref(1)
+const amount = ref('1')
+const route = useRoute()
+
 onMounted(() => {
-  const route = useRoute()
   axios
     .get(`${config.baseUrl}${config.products}/${route.params.id}`)
     .then((res) => (product.value = res.data))
     .catch((err) => console.log(err))
 })
+
+const cartStore = useCartStore()
+const handleAddToCart = () => {
+  if (product.value) {
+    const cartItem = { ...product.value, amount: amount.value }
+    cartStore.addToCart(cartItem)
+  }
+}
 </script>
 <style>
 .single-product {

@@ -18,23 +18,25 @@
             <Moon v-show="!isDark" />
           </div>
         </div>
-        <div class="cart">
-          <div class="count">
-            {{ 0 }}
-          </div>
+        <router-link to="/cart" class="cart">
+          <div class="count">{{ totalCartProducts }}</div>
           <ShoppingCart class="cart-icon" />
-        </div>
+        </router-link>
       </div>
     </div>
   </nav>
 </template>
 <script setup lang="ts">
+import useCartStore from '@/stores/cart'
 import { Moon, ShoppingCart, Sun } from '@lucide/vue'
+import { storeToRefs } from 'pinia'
 import { inject } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const isDark = inject('isDark')
+const cartStore = useCartStore()
+const { totalCartProducts } = storeToRefs(cartStore)
 </script>
 <style>
 nav {
@@ -107,8 +109,10 @@ nav .setting .cart {
   position: relative;
   transition: 0.3s;
   cursor: pointer;
+  color: black;
 }
-nav .setting .cart:hover {
+nav .setting .cart:hover,
+nav .setting .cart.router-link-exact-active {
   background-color: #cbd5e1;
 }
 nav .setting .cart .count {
