@@ -1,5 +1,6 @@
 <template>
-  <div class="single-product">
+  <MyLoader v-if="isLoading" />
+  <div v-else class="single-product">
     <div class="container">
       <div class="product-title">
         <router-link to="/">Home</router-link>
@@ -60,6 +61,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import MyLoader from '@/components/MyLoader.vue'
 import config from '@/constants/enviroment'
 import useCartStore from '@/stores/cart'
 import { Star } from '@lucide/vue'
@@ -78,15 +80,18 @@ interface ProductDetails {
 }
 
 const product = ref<null | ProductDetails>(null)
+const isLoading = ref(false)
 const roundedRating = computed(() => Math.round(product.value?.rating ?? 0))
 const amount = ref('1')
 const route = useRoute()
 
 onMounted(() => {
+  isLoading.value = true
   axios
     .get(`${config.baseUrl}${config.products}/${route.params.id}`)
     .then((res) => (product.value = res.data))
     .catch((err) => console.log(err))
+    .finally(() => (isLoading.value = false))
 })
 
 const cartStore = useCartStore()

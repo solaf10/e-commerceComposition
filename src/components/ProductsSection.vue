@@ -2,13 +2,17 @@
   <section class="products">
     <div class="container">
       <slot name="secTitle"></slot>
-      <p class="empty" v-if="products.length === 0" style="text-align: center">No products found</p>
+      <p class="empty" v-if="products.length === 0 && !isLoading" style="text-align: center">
+        No products found
+      </p>
       <div
         v-else
         :class="`content ${isLinear ? 'linear-layout' : 'grid-layout'}`"
         :style="`grid-template-columns: ${isLinear ? 'repeat(1fr)' : 'repeat(auto-fill, minmax(300px, 1fr))'};`"
       >
+        <SkeletonCards :count="3" v-if="isLoading" />
         <ProductCard
+          v-else
           v-for="product in products"
           :key="product.id"
           :id="product.id"
@@ -23,9 +27,11 @@
 <script setup lang="ts">
 import type { ProductCardType } from '@/interfaces.ts'
 import ProductCard from './ProductCard.vue'
+import SkeletonCards from './SkeletonCards.vue'
 
-const { isLinear, products } = defineProps<{
+const { isLinear, products, isLoading } = defineProps<{
   isLinear?: boolean
+  isLoading: boolean
   products: ProductCardType[]
 }>()
 </script>

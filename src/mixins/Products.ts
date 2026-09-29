@@ -5,6 +5,7 @@ import { onMounted, ref, watch } from 'vue'
 
 const ProductsLogic = () => {
   const products = ref<ProductCardType[]>([])
+  const isLoading = ref<boolean>(false)
   const filteredProducts = ref<ProductCardType[]>([])
 
   watch(
@@ -16,11 +17,13 @@ const ProductsLogic = () => {
   )
 
   onMounted(() => {
+    isLoading.value = true
     axios
       .get(config.baseUrl + config.products)
       .then((res) => (products.value = res.data.products))
       .catch((err) => console.log(err))
+      .finally(() => (isLoading.value = false))
   })
-  return { products, filteredProducts }
+  return { products, filteredProducts, isLoading }
 }
 export default ProductsLogic

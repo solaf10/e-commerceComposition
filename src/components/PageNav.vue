@@ -152,6 +152,11 @@ nav .setting .cart .cart-icon {
         }
       }
       .setting {
+        .cart {
+          .cart-icon {
+            color: white;
+          }
+        }
         .cart:hover {
           background-color: #f8f8f21a;
         }

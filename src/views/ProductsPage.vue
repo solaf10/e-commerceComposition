@@ -1,6 +1,6 @@
 <template>
   <ProductsFilter :products="products" @filterProducts="($event) => onFilterProducts($event)" />
-  <ProductsSection :products="filteredProducts" :isLinear="isLinear"
+  <ProductsSection :products="filteredProducts" :isLinear="isLinear" :isLoading="isLoading"
     ><template #secTitle>
       <div class="info" style="margin-bottom: 3rem">
         <p>{{ filteredProducts.length }} Products</p>
@@ -22,7 +22,7 @@ import type { ProductCardType } from '@/interfaces'
 import ProductsLogic from '@/mixins/Products'
 import { LayoutGrid, TextAlignJustify } from '@lucide/vue'
 import { ref } from 'vue'
-const { products, filteredProducts } = ProductsLogic()
+const { products, filteredProducts, isLoading } = ProductsLogic()
 const isLinear = ref(false)
 
 const onFilterProducts = (filterRes: ProductCardType[]) => {
