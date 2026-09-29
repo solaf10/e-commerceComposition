@@ -2,7 +2,9 @@
   <section class="products">
     <div class="container">
       <slot name="secTitle"></slot>
+      <p class="empty" v-if="products.length === 0" style="text-align: center">No products found</p>
       <div
+        v-else
         :class="`content ${isLinear ? 'linear-layout' : 'grid-layout'}`"
         :style="`grid-template-columns: ${isLinear ? 'repeat(1fr)' : 'repeat(auto-fill, minmax(300px, 1fr))'};`"
       >

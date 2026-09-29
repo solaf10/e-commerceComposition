@@ -3,8 +3,9 @@ export interface ProductCardType {
   title: string
   thumbnail: string
   price: number
+  category?: string
+  brand?: string
 }
 export interface CartItem extends ProductCardType {
   amount: string
-  brand: string
 }
