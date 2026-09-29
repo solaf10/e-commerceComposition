@@ -6,7 +6,7 @@ const router = createRouter({
     {
       name: 'home',
       path: '/',
-      component: import('@/views/HomePage.vue'),
+      component: () => import('@/views/HomePage.vue'),
       meta: {
         title: 'Home',
       },
@@ -14,7 +14,7 @@ const router = createRouter({
     {
       name: 'about',
       path: '/about',
-      component: import('@/views/AboutPage.vue'),
+      component: () => import('@/views/AboutPage.vue'),
       meta: {
         title: 'About',
       },
@@ -22,17 +22,22 @@ const router = createRouter({
     {
       name: 'products',
       path: '/products',
-      component: import('@/views/ProductsPage.vue'),
+      component: () => import('@/views/ProductsPage.vue'),
       meta: {
         title: 'Products',
       },
     },
+    {
+      name: 'product',
+      path: '/products/:id',
+      component: () => import('@/views/SingleProduct.vue'),
+    },
   ],
 })
 
-router.beforeEach((from, _, next) => {
-  document.title = `Comfy- ${from.meta.title}`
-  next()
+router.beforeEach((to) => {
+  if (to.name === 'product') document.title = `Comfy- ${to.query.title}`
+  else document.title = `Comfy- ${to.meta.title}`
 })
 
 export default router
