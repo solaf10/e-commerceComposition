@@ -4,18 +4,9 @@
   </ProductsSection>
 </template>
 <script setup lang="ts">
-import config from '@/constants/enviroment'
-import type { ProductCardType } from '@/interfaces'
-import axios from 'axios'
-import { onMounted, ref } from 'vue'
 import ProductsSection from './ProductsSection.vue'
-const products = ref<ProductCardType[]>([])
-onMounted(() => {
-  axios
-    .get(config.baseUrl + config.products)
-    .then((res) => (products.value = res.data.products))
-    .catch((err) => console.log(err))
-})
+import ProductsLogic from '@/mixins/Products.ts'
+const { products } = ProductsLogic()
 </script>
 <style>
 .latest-products .container {

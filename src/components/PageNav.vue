@@ -9,7 +9,11 @@
       </ul>
       <div class="setting">
         <div class="dark-mode">
-          <div class="icon" :style="`transform:${isDark ? 'rotate(-45deg)' : 'rotate(0deg)'}`">
+          <div
+            class="icon"
+            :style="`transform:${isDark ? 'rotate(-45deg)' : 'rotate(0deg)'}`"
+            @click="isDark = !isDark"
+          >
             <Sun v-show="isDark" />
             <Moon v-show="!isDark" />
           </div>
@@ -26,11 +30,11 @@
 </template>
 <script setup lang="ts">
 import { Moon, ShoppingCart, Sun } from '@lucide/vue'
-import { ref } from 'vue'
+import { inject } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const isDark = ref(false)
+const isDark = inject('isDark')
 </script>
 <style>
 nav {
